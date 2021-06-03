@@ -1,0 +1,3 @@
+MONGO_PSW=TuPassWord
+MONGO_USERNAME=TuUsername
+DBNAME=TuDBName
