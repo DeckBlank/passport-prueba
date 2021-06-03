@@ -13,7 +13,6 @@ const strategyJWT = {
   secretOrKey: 'TOP_SECRET',
   // jwtFromRequest: ExtractJWT.fromUrlQueryParameter('secret_token'),
   jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
-
 };
 
 const signup = async (email, password, done) => {
