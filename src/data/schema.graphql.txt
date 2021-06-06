@@ -1,0 +1,807 @@
+type Query {
+  taskById(_id: MongoID!): task
+  taskByIds(_ids: [MongoID!]!, limit: Int = 100, sort: SortFindByIdstaskInput): [task!]!
+  taskOne(
+    """Filter by fields"""
+    filter: FilterFindOnetaskInput
+    skip: Int
+    sort: SortFindOnetaskInput
+  ): task
+  taskMany(
+    """Filter by fields"""
+    filter: FilterFindManytaskInput
+    skip: Int
+    limit: Int = 100
+    sort: SortFindManytaskInput
+  ): [task!]!
+  taskCount(
+    """Filter by fields"""
+    filter: FilterCounttaskInput
+  ): Int
+  taskConnection(
+    """Forward pagination argument for returning at most first edges"""
+    first: Int
+
+    """Forward pagination argument for returning at most first edges"""
+    after: String
+
+    """Backward pagination argument for returning at most last edges"""
+    last: Int
+
+    """Backward pagination argument for returning at most last edges"""
+    before: String
+
+    """Filter by fields"""
+    filter: FilterFindManytaskInput
+
+    """Sort argument for data ordering"""
+    sort: SortConnectiontaskEnum = _ID_DESC
+  ): taskConnection
+  taskPagination(
+    """Page number for displaying"""
+    page: Int
+
+    """"""
+    perPage: Int = 20
+
+    """Filter by fields"""
+    filter: FilterFindManytaskInput
+    sort: SortFindManytaskInput
+  ): taskPagination
+}
+
+type task {
+  title: String!
+  description: String!
+  duration: Float!
+  _id: MongoID!
+  updatedAt: Date
+  createdAt: Date
+}
+
+"""
+The `ID` scalar type represents a unique MongoDB identifier in collection. MongoDB by default use 12-byte ObjectId value (https://docs.mongodb.com/manual/reference/bson-types/#objectid). But MongoDB also may accepts string or integer as correct values for _id field.
+"""
+scalar MongoID
+
+scalar Date
+
+enum SortFindByIdstaskInput {
+  _ID_ASC
+  _ID_DESC
+  TITLE_ASC
+  TITLE_DESC
+  DESCRIPTION_ASC
+  DESCRIPTION_DESC
+}
+
+""""""
+input FilterFindOnetaskInput {
+  title: String
+  description: String
+  duration: Float
+  _id: MongoID
+  updatedAt: Date
+  createdAt: Date
+
+  """List of *indexed* fields that can be filtered via operators."""
+  _operators: FilterFindOnetaskOperatorsInput
+  OR: [FilterFindOnetaskInput!]
+  AND: [FilterFindOnetaskInput!]
+}
+
+"""For performance reason this type contains only *indexed* fields."""
+input FilterFindOnetaskOperatorsInput {
+  title: FilterFindOnetaskTitleOperatorsInput
+  description: FilterFindOnetaskDescriptionOperatorsInput
+  _id: FilterFindOnetask_idOperatorsInput
+}
+
+input FilterFindOnetaskTitleOperatorsInput {
+  gt: String
+  gte: String
+  lt: String
+  lte: String
+  ne: String
+  in: [String]
+  nin: [String]
+  regex: RegExpAsString
+  exists: Boolean
+}
+
+"""
+The string representation of JavaScript regexp. You may provide it with flags "/^abc.*/i" or without flags like "^abc.*". More info about RegExp characters and flags: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions
+"""
+scalar RegExpAsString @specifiedBy(url: "http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-262.pdf")
+
+input FilterFindOnetaskDescriptionOperatorsInput {
+  gt: String
+  gte: String
+  lt: String
+  lte: String
+  ne: String
+  in: [String]
+  nin: [String]
+  regex: RegExpAsString
+  exists: Boolean
+}
+
+input FilterFindOnetask_idOperatorsInput {
+  gt: MongoID
+  gte: MongoID
+  lt: MongoID
+  lte: MongoID
+  ne: MongoID
+  in: [MongoID]
+  nin: [MongoID]
+  exists: Boolean
+}
+
+enum SortFindOnetaskInput {
+  _ID_ASC
+  _ID_DESC
+  TITLE_ASC
+  TITLE_DESC
+  DESCRIPTION_ASC
+  DESCRIPTION_DESC
+}
+
+""""""
+input FilterFindManytaskInput {
+  title: String
+  description: String
+  duration: Float
+  _id: MongoID
+  updatedAt: Date
+  createdAt: Date
+
+  """List of *indexed* fields that can be filtered via operators."""
+  _operators: FilterFindManytaskOperatorsInput
+  OR: [FilterFindManytaskInput!]
+  AND: [FilterFindManytaskInput!]
+}
+
+"""For performance reason this type contains only *indexed* fields."""
+input FilterFindManytaskOperatorsInput {
+  title: FilterFindManytaskTitleOperatorsInput
+  description: FilterFindManytaskDescriptionOperatorsInput
+  _id: FilterFindManytask_idOperatorsInput
+}
+
+input FilterFindManytaskTitleOperatorsInput {
+  gt: String
+  gte: String
+  lt: String
+  lte: String
+  ne: String
+  in: [String]
+  nin: [String]
+  regex: RegExpAsString
+  exists: Boolean
+}
+
+input FilterFindManytaskDescriptionOperatorsInput {
+  gt: String
+  gte: String
+  lt: String
+  lte: String
+  ne: String
+  in: [String]
+  nin: [String]
+  regex: RegExpAsString
+  exists: Boolean
+}
+
+input FilterFindManytask_idOperatorsInput {
+  gt: MongoID
+  gte: MongoID
+  lt: MongoID
+  lte: MongoID
+  ne: MongoID
+  in: [MongoID]
+  nin: [MongoID]
+  exists: Boolean
+}
+
+enum SortFindManytaskInput {
+  _ID_ASC
+  _ID_DESC
+  TITLE_ASC
+  TITLE_DESC
+  DESCRIPTION_ASC
+  DESCRIPTION_DESC
+}
+
+""""""
+input FilterCounttaskInput {
+  title: String
+  description: String
+  duration: Float
+  _id: MongoID
+  updatedAt: Date
+  createdAt: Date
+
+  """List of *indexed* fields that can be filtered via operators."""
+  _operators: FilterCounttaskOperatorsInput
+  OR: [FilterCounttaskInput!]
+  AND: [FilterCounttaskInput!]
+}
+
+"""For performance reason this type contains only *indexed* fields."""
+input FilterCounttaskOperatorsInput {
+  title: FilterCounttaskTitleOperatorsInput
+  description: FilterCounttaskDescriptionOperatorsInput
+  _id: FilterCounttask_idOperatorsInput
+}
+
+input FilterCounttaskTitleOperatorsInput {
+  gt: String
+  gte: String
+  lt: String
+  lte: String
+  ne: String
+  in: [String]
+  nin: [String]
+  regex: RegExpAsString
+  exists: Boolean
+}
+
+input FilterCounttaskDescriptionOperatorsInput {
+  gt: String
+  gte: String
+  lt: String
+  lte: String
+  ne: String
+  in: [String]
+  nin: [String]
+  regex: RegExpAsString
+  exists: Boolean
+}
+
+input FilterCounttask_idOperatorsInput {
+  gt: MongoID
+  gte: MongoID
+  lt: MongoID
+  lte: MongoID
+  ne: MongoID
+  in: [MongoID]
+  nin: [MongoID]
+  exists: Boolean
+}
+
+"""A connection to a list of items."""
+type taskConnection {
+  """Total object count."""
+  count: Int!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """Information to aid in pagination."""
+  edges: [taskEdge!]!
+}
+
+"""Information about pagination in a connection."""
+type PageInfo {
+  """When paginating forwards, are there more items?"""
+  hasNextPage: Boolean!
+
+  """When paginating backwards, are there more items?"""
+  hasPreviousPage: Boolean!
+
+  """When paginating backwards, the cursor to continue."""
+  startCursor: String
+
+  """When paginating forwards, the cursor to continue."""
+  endCursor: String
+}
+
+"""An edge in a connection."""
+type taskEdge {
+  """The item at the end of the edge"""
+  node: task!
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
+enum SortConnectiontaskEnum {
+  _ID_DESC
+  _ID_ASC
+  TITLE_DESC
+  TITLE_ASC
+  DESCRIPTION_DESC
+  DESCRIPTION_ASC
+}
+
+"""List of items with pagination."""
+type taskPagination {
+  """Total object count."""
+  count: Int
+
+  """Array of objects."""
+  items: [task!]
+
+  """Information to aid in pagination."""
+  pageInfo: PaginationInfo!
+}
+
+type PaginationInfo {
+  currentPage: Int!
+  perPage: Int!
+  pageCount: Int
+  itemCount: Int
+  hasNextPage: Boolean
+  hasPreviousPage: Boolean
+}
+
+type Mutation {
+  """
+  Create one document with mongoose defaults, setters, hooks and validation
+  """
+  taskCreateOne(record: CreateOnetaskInput!): CreateOnetaskPayload
+
+  """
+  Creates Many documents with mongoose defaults, setters, hooks and validation
+  """
+  taskCreateMany(records: [CreateManytaskInput!]!): CreateManytaskPayload
+
+  """
+  Update one document: 1) Retrieve one document by findById. 2) Apply updates to mongoose document. 3) Mongoose applies defaults, setters, hooks and validation. 4) And save it.
+  """
+  taskUpdateById(_id: MongoID!, record: UpdateByIdtaskInput!): UpdateByIdtaskPayload
+
+  """
+  Update one document: 1) Retrieve one document via findOne. 2) Apply updates to mongoose document. 3) Mongoose applies defaults, setters, hooks and validation. 4) And save it.
+  """
+  taskUpdateOne(
+    record: UpdateOnetaskInput!
+
+    """Filter by fields"""
+    filter: FilterUpdateOnetaskInput
+    sort: SortUpdateOnetaskInput
+    skip: Int
+  ): UpdateOnetaskPayload
+
+  """
+  Update many documents without returning them: Use Query.update mongoose method. Do not apply mongoose defaults, setters, hooks and validation. 
+  """
+  taskUpdateMany(
+    record: UpdateManytaskInput!
+
+    """Filter by fields"""
+    filter: FilterUpdateManytaskInput
+    sort: SortUpdateManytaskInput
+    skip: Int
+    limit: Int = 100
+  ): UpdateManytaskPayload
+
+  """
+  Remove one document: 1) Retrieve one document and remove with hooks via findByIdAndRemove. 2) Return removed document.
+  """
+  taskRemoveById(_id: MongoID!): RemoveByIdtaskPayload
+
+  """
+  Remove one document: 1) Remove with hooks via findOneAndRemove. 2) Return removed document.
+  """
+  taskRemoveOne(
+    """Filter by fields"""
+    filter: FilterRemoveOnetaskInput
+    sort: SortRemoveOnetaskInput
+  ): RemoveOnetaskPayload
+
+  """
+  Remove many documents without returning them: Use Query.remove mongoose method. Do not apply mongoose defaults, setters, hooks and validation. 
+  """
+  taskRemoveMany(
+    """Filter by fields"""
+    filter: FilterRemoveManytaskInput!
+    limit: Int = 100
+  ): RemoveManytaskPayload
+}
+
+type CreateOnetaskPayload {
+  """Document ID"""
+  recordId: MongoID
+
+  """Created document"""
+  record: task
+
+  """
+  Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response.
+  """
+  error: ErrorInterface
+}
+
+interface ErrorInterface {
+  """Generic error message"""
+  message: String
+}
+
+""""""
+input CreateOnetaskInput {
+  title: String!
+  description: String!
+  duration: Float!
+  updatedAt: Date
+  createdAt: Date
+}
+
+type CreateManytaskPayload {
+  """Documents IDs"""
+  recordIds: [MongoID!]!
+
+  """Created documents"""
+  records: [task!]
+
+  """Number of created documents"""
+  createdCount: Int!
+
+  """
+  Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response.
+  """
+  error: ErrorInterface
+}
+
+""""""
+input CreateManytaskInput {
+  title: String!
+  description: String!
+  duration: Float!
+  updatedAt: Date
+  createdAt: Date
+}
+
+type UpdateByIdtaskPayload {
+  """Document ID"""
+  recordId: MongoID
+
+  """Updated document"""
+  record: task
+
+  """
+  Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response.
+  """
+  error: ErrorInterface
+}
+
+""""""
+input UpdateByIdtaskInput {
+  title: String
+  description: String
+  duration: Float
+  updatedAt: Date
+  createdAt: Date
+}
+
+type UpdateOnetaskPayload {
+  """Document ID"""
+  recordId: MongoID
+
+  """Updated document"""
+  record: task
+
+  """
+  Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response.
+  """
+  error: ErrorInterface
+}
+
+""""""
+input UpdateOnetaskInput {
+  title: String
+  description: String
+  duration: Float
+  updatedAt: Date
+  createdAt: Date
+}
+
+""""""
+input FilterUpdateOnetaskInput {
+  title: String
+  description: String
+  duration: Float
+  _id: MongoID
+  updatedAt: Date
+  createdAt: Date
+
+  """List of *indexed* fields that can be filtered via operators."""
+  _operators: FilterUpdateOnetaskOperatorsInput
+  OR: [FilterUpdateOnetaskInput!]
+  AND: [FilterUpdateOnetaskInput!]
+}
+
+"""For performance reason this type contains only *indexed* fields."""
+input FilterUpdateOnetaskOperatorsInput {
+  title: FilterUpdateOnetaskTitleOperatorsInput
+  description: FilterUpdateOnetaskDescriptionOperatorsInput
+  _id: FilterUpdateOnetask_idOperatorsInput
+}
+
+input FilterUpdateOnetaskTitleOperatorsInput {
+  gt: String
+  gte: String
+  lt: String
+  lte: String
+  ne: String
+  in: [String]
+  nin: [String]
+  regex: RegExpAsString
+  exists: Boolean
+}
+
+input FilterUpdateOnetaskDescriptionOperatorsInput {
+  gt: String
+  gte: String
+  lt: String
+  lte: String
+  ne: String
+  in: [String]
+  nin: [String]
+  regex: RegExpAsString
+  exists: Boolean
+}
+
+input FilterUpdateOnetask_idOperatorsInput {
+  gt: MongoID
+  gte: MongoID
+  lt: MongoID
+  lte: MongoID
+  ne: MongoID
+  in: [MongoID]
+  nin: [MongoID]
+  exists: Boolean
+}
+
+enum SortUpdateOnetaskInput {
+  _ID_ASC
+  _ID_DESC
+  TITLE_ASC
+  TITLE_DESC
+  DESCRIPTION_ASC
+  DESCRIPTION_DESC
+}
+
+type UpdateManytaskPayload {
+  """Affected documents number"""
+  numAffected: Int
+
+  """
+  Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response.
+  """
+  error: ErrorInterface
+}
+
+""""""
+input UpdateManytaskInput {
+  title: String
+  description: String
+  duration: Float
+  updatedAt: Date
+  createdAt: Date
+}
+
+""""""
+input FilterUpdateManytaskInput {
+  title: String
+  description: String
+  duration: Float
+  _id: MongoID
+  updatedAt: Date
+  createdAt: Date
+
+  """List of *indexed* fields that can be filtered via operators."""
+  _operators: FilterUpdateManytaskOperatorsInput
+  OR: [FilterUpdateManytaskInput!]
+  AND: [FilterUpdateManytaskInput!]
+}
+
+"""For performance reason this type contains only *indexed* fields."""
+input FilterUpdateManytaskOperatorsInput {
+  title: FilterUpdateManytaskTitleOperatorsInput
+  description: FilterUpdateManytaskDescriptionOperatorsInput
+  _id: FilterUpdateManytask_idOperatorsInput
+}
+
+input FilterUpdateManytaskTitleOperatorsInput {
+  gt: String
+  gte: String
+  lt: String
+  lte: String
+  ne: String
+  in: [String]
+  nin: [String]
+  regex: RegExpAsString
+  exists: Boolean
+}
+
+input FilterUpdateManytaskDescriptionOperatorsInput {
+  gt: String
+  gte: String
+  lt: String
+  lte: String
+  ne: String
+  in: [String]
+  nin: [String]
+  regex: RegExpAsString
+  exists: Boolean
+}
+
+input FilterUpdateManytask_idOperatorsInput {
+  gt: MongoID
+  gte: MongoID
+  lt: MongoID
+  lte: MongoID
+  ne: MongoID
+  in: [MongoID]
+  nin: [MongoID]
+  exists: Boolean
+}
+
+enum SortUpdateManytaskInput {
+  _ID_ASC
+  _ID_DESC
+  TITLE_ASC
+  TITLE_DESC
+  DESCRIPTION_ASC
+  DESCRIPTION_DESC
+}
+
+type RemoveByIdtaskPayload {
+  """Document ID"""
+  recordId: MongoID
+
+  """Removed document"""
+  record: task
+
+  """
+  Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response.
+  """
+  error: ErrorInterface
+}
+
+type RemoveOnetaskPayload {
+  """Document ID"""
+  recordId: MongoID
+
+  """Removed document"""
+  record: task
+
+  """
+  Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response.
+  """
+  error: ErrorInterface
+}
+
+""""""
+input FilterRemoveOnetaskInput {
+  title: String
+  description: String
+  duration: Float
+  _id: MongoID
+  updatedAt: Date
+  createdAt: Date
+
+  """List of *indexed* fields that can be filtered via operators."""
+  _operators: FilterRemoveOnetaskOperatorsInput
+  OR: [FilterRemoveOnetaskInput!]
+  AND: [FilterRemoveOnetaskInput!]
+}
+
+"""For performance reason this type contains only *indexed* fields."""
+input FilterRemoveOnetaskOperatorsInput {
+  title: FilterRemoveOnetaskTitleOperatorsInput
+  description: FilterRemoveOnetaskDescriptionOperatorsInput
+  _id: FilterRemoveOnetask_idOperatorsInput
+}
+
+input FilterRemoveOnetaskTitleOperatorsInput {
+  gt: String
+  gte: String
+  lt: String
+  lte: String
+  ne: String
+  in: [String]
+  nin: [String]
+  regex: RegExpAsString
+  exists: Boolean
+}
+
+input FilterRemoveOnetaskDescriptionOperatorsInput {
+  gt: String
+  gte: String
+  lt: String
+  lte: String
+  ne: String
+  in: [String]
+  nin: [String]
+  regex: RegExpAsString
+  exists: Boolean
+}
+
+input FilterRemoveOnetask_idOperatorsInput {
+  gt: MongoID
+  gte: MongoID
+  lt: MongoID
+  lte: MongoID
+  ne: MongoID
+  in: [MongoID]
+  nin: [MongoID]
+  exists: Boolean
+}
+
+enum SortRemoveOnetaskInput {
+  _ID_ASC
+  _ID_DESC
+  TITLE_ASC
+  TITLE_DESC
+  DESCRIPTION_ASC
+  DESCRIPTION_DESC
+}
+
+type RemoveManytaskPayload {
+  """Affected documents number"""
+  numAffected: Int
+
+  """
+  Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response.
+  """
+  error: ErrorInterface
+}
+
+""""""
+input FilterRemoveManytaskInput {
+  title: String
+  description: String
+  duration: Float
+  _id: MongoID
+  updatedAt: Date
+  createdAt: Date
+
+  """List of *indexed* fields that can be filtered via operators."""
+  _operators: FilterRemoveManytaskOperatorsInput
+  OR: [FilterRemoveManytaskInput!]
+  AND: [FilterRemoveManytaskInput!]
+}
+
+"""For performance reason this type contains only *indexed* fields."""
+input FilterRemoveManytaskOperatorsInput {
+  title: FilterRemoveManytaskTitleOperatorsInput
+  description: FilterRemoveManytaskDescriptionOperatorsInput
+  _id: FilterRemoveManytask_idOperatorsInput
+}
+
+input FilterRemoveManytaskTitleOperatorsInput {
+  gt: String
+  gte: String
+  lt: String
+  lte: String
+  ne: String
+  in: [String]
+  nin: [String]
+  regex: RegExpAsString
+  exists: Boolean
+}
+
+input FilterRemoveManytaskDescriptionOperatorsInput {
+  gt: String
+  gte: String
+  lt: String
+  lte: String
+  ne: String
+  in: [String]
+  nin: [String]
+  regex: RegExpAsString
+  exists: Boolean
+}
+
+input FilterRemoveManytask_idOperatorsInput {
+  gt: MongoID
+  gte: MongoID
+  lt: MongoID
+  lte: MongoID
+  ne: MongoID
+  in: [MongoID]
+  nin: [MongoID]
+  exists: Boolean
+}

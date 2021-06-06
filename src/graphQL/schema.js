@@ -1,27 +1,20 @@
-const { buildSchema } = require('graphql');
+const { SchemaComposer } = require('graphql-compose');
+const { TaskQuery, TaskMutation } = require('./task');
+const { UserQuery, UserMutation } = require('./user');
+const { AuthorQuery, AuthorMutation } = require('./author');
 
-// GraphQL schema
-var schema = buildSchema(`
-    type Query {
-        message: String,
-        saludar(nombre: String!) : String,
-        users: [User],
-    }
+const schemaComposer = new SchemaComposer();
 
-    type Mutation {
-      createUser(input: UserInput) : User
-    }
+schemaComposer.Query.addFields({
+  ...UserQuery,
+  ...TaskQuery,
+  ...AuthorQuery,
+});
 
-    type User {
-      _id: ID,
-      email: String!,
-    }
+schemaComposer.Mutation.addFields({
+  ...UserMutation,
+  ...TaskMutation,
+  ...AuthorMutation,
+});
 
-    input UserInput {
-      email: String!,
-      password: String!,
-    },
-
-`);
-
-module.exports = schema;
+module.exports = schemaComposer.buildSchema();
