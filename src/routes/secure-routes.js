@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const { UserModel } = require('../model/user');
 
 router.get( '/profile', (req, res, next) => {
     res.json({
@@ -9,5 +10,16 @@ router.get( '/profile', (req, res, next) => {
     })
   }
 );
+
+router.get('/', async (req, res) => {
+  try {
+    const users = await UserModel.find();
+    res.json(users);
+  }
+  catch (err) {
+    console.log(err);
+    res.status(500).json({ msg: err.message })
+  }
+})
 
 module.exports = router;
